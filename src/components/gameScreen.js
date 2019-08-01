@@ -63,6 +63,19 @@ export default class GameScreen extends Component {
     });
   }
 
+  gameOver() {
+    Alert.alert(
+      'Game Over',
+      `Your Score is : ${this.state.user_score}`,
+      [
+        {text: 'New Game', onPress: () => console.log('pressed')},
+      ],
+      {cancelable: false},
+    );
+
+    this.getNewDeck()
+  }
+
   guessHigher() {
     axios.get(`https://deckofcardsapi.com/api/deck/${this.state.deck_id}/draw/?count=1`)
     .then(response => {
@@ -78,16 +91,7 @@ export default class GameScreen extends Component {
       });
 
       if (response.data.remaining === 0 ) {
-      Alert.alert(
-        'Game Over',
-        `Your Score is : ${this.state.user_score}`,
-        [
-          {text: 'New Game', onPress: () => console.log('pressed')},
-        ],
-        {cancelable: false},
-      );
-
-      this.getNewDeck()
+        this.gameOver();
       }
 
     })
@@ -108,16 +112,7 @@ export default class GameScreen extends Component {
       });
 
       if (response.data.remaining === 0 ) {
-        Alert.alert(
-          'Game Over',
-          `Your Score is : ${this.state.user_score}`,
-          [
-            {text: 'New Game', onPress: () => console.log('pressed')},
-          ],
-          {cancelable: false},
-        );
-
-        this.getNewDeck()
+        this.gameOver()
     }});
   }
 
